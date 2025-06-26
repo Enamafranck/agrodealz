@@ -12,10 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payement', function (Blueprint $table) {
-            $table->unsignedBigInteger("idpayement");
+            $table->unsignedBigInteger('idpayement')->primary()->autoIncrement();
              $table->unsignedBigInteger("idagriculteur");
             $table->double("montantPaye");
             $table->dateTime("datePayement");
+             $table->timestamps();
 
             $table->foreign('idagriculteur')->references('idagriculteur')->on('agriculteur')->onDelete('cascade');
         });

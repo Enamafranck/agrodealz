@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\user;
 use App\Models\Annonces;
 use App\Models\agriculteur;
 use App\Models\materiel;
@@ -19,14 +20,28 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
        
+       // 1. D'abord créer les rôles
+    $this->call(roleSeeder::class);
     
-        // User::factory(10)->create();
+    // 2. Ensuite créer les utilisateurs
+    $this->call(UserSeeder::class);
+    
+    // 3. Enfin créer les relations (si vous avez un seeder séparé)
+        $this->call(user_roleSeeder::class);
+    
+
+    
+         User::factory(20)->create();
 
         
         agriculteur::factory(10)->create();
         proprietaire::factory(20)->create();
        administrateur::factory(20)->create();
         annonces::factory(20)->create();
+
+        user:: find(1)->role()->attach(1);
+        user:: find(2)->role()->attach(2);
+        user:: find(3)->role()->attach(3);
 
     // Puis créer vos données
     \App\Models\Proprietaire::factory(20)->create();
@@ -40,6 +55,8 @@ class DatabaseSeeder extends Seeder
         // Dans votre DatabaseSeeder.php
 
       
+
+   
    
     
 }

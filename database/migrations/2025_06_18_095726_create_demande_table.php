@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('demande', function (Blueprint $table) {
             $table->unsignedBigInteger("iddemande")->primary()->autoIncrement();
-            $table->unsignedBigInteger("idannonces");
+            $table->unsignedBigInteger('idannonces')->nullable();
             $table->unsignedBigInteger("idproprietaire");
             $table->unsignedBigInteger("idagriculteur");
             $table->string("statut Enum");
+            $table->date('date_demande');
+            $table->string('message');
             $table->timestamps();
-            
             $table->foreign('idannonces')->references('idannonces')->on('annonces')->onDelete('cascade');
             $table->foreign('idproprietaire')->references('idproprietaire')->on('proprietaire')->onDelete('cascade');
             $table->foreign('idagriculteur')->references('idagriculteur')->on('agriculteur')->onDelete('cascade');

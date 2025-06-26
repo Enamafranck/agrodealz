@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Factories;
-
+use App\Models\Agriculteur;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +18,9 @@ class locationFactory extends Factory
     {
         return [
             //
+             'idagriculteur' => Agriculteur::inRandomOrder()->first()->idagriculteur,
+            'date_debut' => $this->faker->dateTimeBetween('-1 month', 'now'),
+            'date_fin' => $this->faker->dateTimeBetween('now', '+1 month'),
         ];
     }
 }

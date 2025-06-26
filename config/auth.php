@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'passwords' => env('AUTH_PASSWORD_BROKER', 'user'),
     ],
 
     /*
@@ -38,8 +38,21 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'user',
         ],
+        'administrateur' => [
+        'driver' => 'session',
+        'provider' => 'administrateurs',
+        ],
+        'agriculteur' => [
+        'driver' => 'session',
+        'provider' => 'agriculteurs',
+       ],
+
+        'proprietaire' => [
+        'driver' => 'session',
+        'provider' => 'proprietaires',
+      ],
     ],
 
     /*
@@ -60,14 +73,28 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'user' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-        // 'users' => [
+        'administrateurs' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\administrateur::class, // Assure-toi que ce modèle existe !
+       ],
+       'agriculteurs' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Agriculteur::class,
+    ],
+
+    'proprietaires' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Proprietaire::class,
+    ],
+
+        // 'user' => [
         //     'driver' => 'database',
-        //     'table' => 'users',
+        //     'table' => 'user',
         // ],
     ],
 
@@ -91,8 +118,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'user' => [
+            'provider' => 'user',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,

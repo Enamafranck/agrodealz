@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class UserFactory extends Factory
+class UserFactory extends Factory // Nom corrigé
 {
     /**
      * The current password being used by the factory.
@@ -27,13 +27,18 @@ class UserFactory extends Factory
             'nom_complet' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make(fake()->firstName() . '123'),
+            'password' => static::$password ??= Hash::make('password123'), // Mot de passe fixe
             'remember_token' => Str::random(10),
-            'numero_CNI' => fake()->unique()->regexify('[A-Z]{2}[0-9]{6}'), // Format: AB123456
-            'telephone' => fake()->regexify('6[0-9]{8}'), // Format camerounais : 6xxxxxxxx
-            'photo_CNI' => fake()->imageUrl(400, 300, 'documents', true, 'CNI'), // URL d'image factice
-            'photo de la personne' => fake()->imageUrl(300, 400, 'people', true, 'Portrait'), // URL d'image factice
+            'numero_CNI' => fake()->unique()->regexify('[A-Z]{2}[0-9]{6}'),
+            'telephone' => fake()->regexify('6[0-9]{8}'),
+            'photo_CNI' => fake()->imageUrl(400, 300, 'documents', true, 'CNI'),
+            'photo de la personne' => fake()->imageUrl(300, 400, 'people', true, 'Portrait'), // Nom corrigé
+            'sexe' => fake()->randomElement(['Homme', 'Femme']),
+       
+            
         ];
+        
+
     }
 
     /**
