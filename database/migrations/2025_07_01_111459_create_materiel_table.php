@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('location', function (Blueprint $table) {
             $table->unsignedBigInteger("idlocation")->primary()->autoIncrement();
+             $table->unsignedBigInteger("idmateriel");
             $table->unsignedBigInteger("idagriculteur");
+            $table->string('image')->nullable();
             $table->dateTime('date_debut')->nullable(); // Correction du type
             $table->dateTime('date_fin')->nullable(); // Correction du type
             $table->timestamps(); // Création automatique de created_at et updated_at
 
              $table->foreign('idagriculteur')->references('idagriculteur')->on('agriculteur')->onDelete('cascade');
+              $table->foreign('idmateriel')->references('idmateriel')->on('materiel')->onDelete('cascade');
+              
+             
         });
     }
 

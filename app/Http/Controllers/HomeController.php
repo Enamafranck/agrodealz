@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Materiel;
+use App\Models\Location; // ✅ avec une majuscule
+
 
 class HomeController extends Controller
 {
@@ -21,8 +24,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+     public function index()
     {
-        return view('home');
+        $materiels = Materiel::all();
+        $location = Location::all(); // ou une autre logique
+
+        return view('home', compact('materiels', 'location'));
     }
 }

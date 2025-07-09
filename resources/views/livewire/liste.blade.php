@@ -49,9 +49,17 @@
                         {{ $user->created_at ? $user->created_at->diffForHumans() : 'Date inconnue' }}
                         </span></td>
                       <td class="text-center"> 
-                        <button class="btn btn-link"><i class="far fa-edit"></i></button>
-                        <button class="btn btn-link"><i  class="fas fa-trash-alt"class="fas fa-trash-alt"></i></button>
-                      </td>
+                        <a href="{{ route('users.edit', $user) }}" class="btn btn-link text-primary" title="Modifier">
+    <i class="fas fa-edit"></i>
+</a>
+                        <form action="{{ route('users.destroy', $user) }}" method="POST" style="display:inline;" onsubmit="return confirm('Confirmer la suppression de cet utilisateur ?');">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-link text-danger" title="Supprimer">
+      <i class="fas fa-trash-alt"></i>
+    </button>
+  </form>                
+ </td>
                     </tr>
                  @endforeach
                   </tbody>

@@ -3,8 +3,8 @@
             
 
             <li class="nav-item ">
-                <a href="#" class="nav-link active">
-                  <i class="nav-icon fas fa-home"></i>
+                <a href="{{ route('acceuil') }}" class="nav-link active">
+  <i class="nav-icon fas fa-home"></i>
                   <p>
                     Acceuil
                   </p>
@@ -28,7 +28,7 @@
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-swatchbooks"></i>
+                  <i class="nav-icon fas fa-swatchbook"></i>
                   <p>Locations</p>
                 </a>
               </li>
@@ -69,7 +69,7 @@
                 </a>
               <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="#" class="nav-link ">
+            <a href="{{ route('materiels.index')}}" class="nav-link ">
               <i class="nav-icon fas fa-circle"></i>
               <p>
                Materiels

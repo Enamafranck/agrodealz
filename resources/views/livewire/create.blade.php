@@ -88,8 +88,101 @@
         </a>
     </div>
 </form>
+            </div>
+        </div>
+    
+    <div class="col-md-6">
+    <div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-user-lock fa-2x"></i> reintialisation du mot de passe </h3>
+              </div>
 
+              <div class ="card-body">
+                <ul>
+                    <li>
+                        
+                    </li>
+                </ul>
 
+             </div>
+            </div>
+     </div>
+         <div class="col-md-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-fingerprint fa-2x"></i> roles & permissions </h3>
+              </div>
+               <div class ="card-body">
+                  <div id="accordion">
+                    <div class="card">
+                 <div class="card-header d-flex justify-content-betwent">
+                    <h4 class="card-title flex-grow-1">
+                        <a data-parent="#accordion" href="#"  aria-expanded="true">
+                            administrateur
+
+                        </a>
+
+                    </h4>
+                       <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      <input type="checkbox" class="custom-control-input" id="customSwitch3">
+                      <label class="custom-control-label" for="customSwitch3">Activé</label>
+                    </div>
+                        
+                 </div>
+
+                    </div>
+
+                  </div>
+             </div>
+              <div class ="card-body">
+                  <div id="accordion">
+                    <div class="card">
+                 <div class="card-header d-flex justify-content-betwent">
+                    <h4 class="card-title flex-grow-1">
+                        <a data-parent="#accordion" href="#"  aria-expanded="true">
+                            agriculteur
+
+                        </a>
+
+                    </h4>
+                       <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      <input type="checkbox" class="custom-control-input" id="customSwitch3">
+                      <label class="custom-control-label" for="customSwitch3">Activé</label>
+                    </div>
+                        
+                 </div>
+
+                    </div>
+
+                  </div>
+             </div>
+                  <div class ="card-body">
+                  <div id="accordion">
+                    <div class="card">
+                 <div class="card-header d-flex justify-content-betwent">
+                    <h4 class="card-title flex-grow-1">
+                        <a data-parent="#accordion" href="#"  aria-expanded="true">
+                            proprietaire
+
+                        </a>
+
+                    </h4>
+                       <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                      <input type="checkbox" class="custom-control-input" id="customSwitch3">
+                      <label class="custom-control-label" for="customSwitch3">Activé</label>
+                    </div>
+                        
+                 </div>
+
+                    </div>
+
+                  </div>
+             </div>
+              </div>
+            </div>
             </div>
         </div>
     </div>
+</div>

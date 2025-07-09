@@ -11,6 +11,8 @@ class Utilisateurs extends Component
     use WithPagination;
     public $layout = 'layouts.master';
 
+    
+
     public function render()
     {
         $users = User::paginate();

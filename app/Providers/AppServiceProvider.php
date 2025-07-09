@@ -7,6 +7,10 @@ use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
+    public const HOME = '/home'; //c
+   // vers ta page d'accueil
+
+
     /**
      * Register any application services.
      */

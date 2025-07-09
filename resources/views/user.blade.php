@@ -15,6 +15,7 @@
         <!-- Votre contenu ici -->
         @include("livewire.liste")
     @endif
+    
 
 </div>
 @endsection

@@ -5,7 +5,9 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-
+define("PAGELIST", "liste");
+define("PAGECREATEFORM", "create");
+define("PAGEEDITFORM", "edit");
 if (!function_exists('userFullName')) {
     /**
      * Récupère le nom complet de l'utilisateur connecté

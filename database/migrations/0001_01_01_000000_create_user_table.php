@@ -21,6 +21,7 @@ return new class extends Migration
           $table->string('telephone');
           $table->string('photo_CNI');
           $table->string('photo de la personne');
+        
           $table->rememberToken();
          $table->timestamps();
             
