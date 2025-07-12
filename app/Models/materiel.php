@@ -31,6 +31,7 @@ class Materiel extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+    
 
     /**
      * Relation avec le model Annonces

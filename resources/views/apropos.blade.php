@@ -353,7 +353,7 @@
                 <li><a href="{{ route('catalogue') }}"><i class="fas fa-list"></i> Catalogue</a></li>
                 <li><a href="{{ route('apropos') }}" class="active"><i class="fas fa-info-circle"></i> À propos</a></li>
                 <li><a href="{{ route('contact') }}"><i class="fas fa-envelope"></i> Contact</a></li>
-                 <a href="{{ route('publier.annonce') }}" class="nav-link">publier.annonce</a>
+                  <a href="{{ route('publier.annonce') }}" class="nav-link">publier.annonce</a>
                   @auth
     @if(auth()->user()->hasRole('administrateur'))
         <a href="{{ route('Utilisateurs') }}" class="nav-link dashboard-link">

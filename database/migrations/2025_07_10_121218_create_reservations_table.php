@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('materiel_id');
-            $table->unsignedBigInteger('user_id'); // ou client_id selon votre système
-            $table->string('nom_client');
-            $table->string('email_client');
-            $table->string('telephone_client');
-            $table->string('adresse_client');
+            $table->unsignedBigInteger('idmateriel');
+            $table->unsignedBigInteger('iduser'); // ou client_id selon votre système
+            $table->string('nom_complet');
+            $table->string('email');
+            $table->string('telephone');
+            $table->string('adresse');
             $table->date('date_debut');
             $table->date('date_fin');
             $table->integer('duree_jours');
@@ -33,8 +33,8 @@ return new class extends Migration
             $table->json('conditions_acceptees');
             $table->timestamps();
 
-            $table->foreign('materiel_id')->references('id')->on('materiels');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('idmateriel')->references('id')->on('materiels');
+            $table->foreign('iduser')->references('id')->on('users');
         });
     }
 

@@ -56,7 +56,11 @@ Route::post('/contact/send', [ContactController::class, 'send'])->name('contact.
 Route::get('/reservation', [ReservationController::class, 'create'])->name('reservation.create');
 Route::post('/reservation', [ReservationController::class, 'store'])->name('reservation.store');
 Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
-
+Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
+Route::patch('/reservations/{reservation}/confirmer', [ReservationController::class, 'confirmer'])->name('reservations.confirmer');
+Route::patch('/reservations/{reservation}/annuler', [ReservationController::class, 'annuler'])->name('reservations.annuler');Route::get('/reservations', [ReservationController::class, 'listeReservations'])->name('reservations.index');
+Route::get('/reservations', [ReservationController::class, 'listeReservations'])->name('reservations.index');
+Route::post('/api/calculer-prix', [ReservationController::class, 'calculerPrix'])->name('reservation.calculer-prix');
 Route::get('/materiels', [MaterielController::class, 'index'])->name('materiels.index');
 Route::get('/materiels/location', [MaterielController::class, 'showLocationForm'])->name('materiels.location');
 Route::post('/materiels/location', [MaterielController::class, 'submitLocation'])->name('location.submit');

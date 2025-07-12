@@ -11,12 +11,12 @@ class Reservation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'materiel_id',
-        'user_id',
-        'nom_client',
-        'email_client',
-        'telephone_client',
-        'adresse_client',
+        'idmateriel',
+        'iduser',
+        'nom_complet',
+        'email',
+        'telephone',
+        'adresse',
         'date_debut',
         'date_fin',
         'duree_jours',
@@ -31,6 +31,7 @@ class Reservation extends Model
         'conditions_acceptees'
     ];
 
+
     protected $casts = [
         'date_debut' => 'date',
         'date_fin' => 'date',
@@ -41,17 +42,19 @@ class Reservation extends Model
         'tva' => 'decimal:2',
         'total_ttc' => 'decimal:2'
     ];
+    protected $primaryKey = 'idmateriel';
+
 
     // Relations
-    public function materiel()
-    {
-        return $this->belongsTo(Materiel::class);
-    }
+   public function materiel()
+{
+    return $this->belongsTo(Materiel::class, 'idmateriel');
+}
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+public function user()
+{
+    return $this->belongsTo(User::class, 'iduser');
+}
 
     // Méthodes de calcul
     public function calculerDuree()
@@ -84,4 +87,17 @@ class Reservation extends Model
     {
         return $query->where('statut', 'confirmee');
     }
+public function getConditionsArray()
+{
+    if (is_string($this->conditions_acceptees)) {
+        return json_decode($this->conditions_acceptees, true) ?? [];
+    }
+    
+    if (is_array($this->conditions_acceptees)) {
+        return $this->conditions_acceptees;
+    }
+    
+    return [];
+}
+
 }

@@ -469,6 +469,7 @@
                 <li><a href="{{ route('catalogue') }}" class="active"><i class="fas fa-list"></i> Catalogue</a></li>
                 <li><a href="{{ route('apropos') }}"><i class="fas fa-info-circle"></i> À propos</a></li>
                 <li><a href="{{ route('contact') }}"><i class="fas fa-envelope"></i> Contact</a></li>
+                 <a href="{{ route('publier.annonce') }}" class="nav-link">publier.annonce</a>
                    @auth
     @if(auth()->user()->hasRole('administrateur'))
         <a href="{{ route('Utilisateurs') }}" class="nav-link dashboard-link">
@@ -553,7 +554,7 @@
                                 <span>Yaoundé, Centre</span>
                             </div>
                         </div>
-                        <a href="{{ route('reservations.create') }}" class="btn btn-primary">
+                        <a href="{{ route('reservation.create') }}" class="btn btn-primary">
                             <i class="fas fa-calendar-alt"></i> Réserver maintenant
                         </a>
                     </div>
@@ -583,7 +584,7 @@
                                 <span>Douala, Littoral</span>
                             </div>
                         </div>
-                        <a href="#" class="btn btn-primary">
+                        <a href="{{ route('reservation.create') }}" class="btn btn-primary">
                             <i class="fas fa-calendar-alt"></i> Réserver maintenant
                         </a>
                     </div>
@@ -613,7 +614,7 @@
                                 <span>Bafoussam, Ouest</span>
                             </div>
                         </div>
-                        <a href="#" class="btn btn-primary">
+                        <a href="{{ route('reservation.create') }}" class="btn btn-primary">
                             <i class="fas fa-calendar-alt"></i> Réserver maintenant
                         </a>
                     </div>
@@ -673,7 +674,7 @@
                                 <span>Bertoua, Est</span>
                             </div>
                         </div>
-                        <a href="#" class="btn btn-primary">
+                        <a href="{{ route('reservation.create') }}" class="btn btn-primary">
                             <i class="fas fa-calendar-alt"></i> Réserver maintenant
                         </a>
                     </div>
@@ -703,7 +704,7 @@
                                 <span>Bamenda, Nord-Ouest</span>
                             </div>
                         </div>
-                        <a href="#" class="btn btn-primary">
+                        <a href="{{ route('reservation.create') }}" class="btn btn-primary">
                             <i class="fas fa-calendar-alt"></i> Réserver maintenant
                         </a>
                     </div>

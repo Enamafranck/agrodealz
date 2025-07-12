@@ -14,34 +14,38 @@ class ReservationController extends Controller
     public function index()
     {
         $reservations = Reservation::with('materiel')
-            ->where('user_id', Auth::id())
+            ->where('iduser', Auth::id())
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         return view('reservations.index', compact('reservations'));
     }
 
-    public function create($materiel_id = null)
+    public function create($idmateriel = null)
     {
-        $materiel = null;
+        // Récupérer TOUS les matériaux disponibles
         $materiels = Materiel::where('disponibilite', 'disponible')->get();
-
-        if ($materiel_id) {
-            $materiel = Materiel::findOrFail($materiel_id);
+        
+        // Initialiser $materiel à null
+        $materiel = null;
+        
+        // Si un matériel spécifique est demandé, le récupérer
+        if ($idmateriel) {
+            $materiel = Materiel::findOrFail($idmateriel);
         }
 
-        return view('reservations.create', compact('materiel', 'users'));
+        return view('reservations.create', compact('materiels', 'materiel'));
     }
 
     public function calculerPrix(Request $request)
     {
         $request->validate([
-            'materiel_id' => 'required|exists:materiels,id',
+            'idmateriel' => 'required|exists:materiel,idmateriel',
             'date_debut' => 'required|date|after_or_equal:today',
             'date_fin' => 'required|date|after:date_debut'
         ]);
 
-        $materiel = Materiel::findOrFail($request->materiel_id);
+        $materiel = Materiel::findOrFail($request->idmateriel);
         $dateDebut = Carbon::parse($request->date_debut);
         $dateFin = Carbon::parse($request->date_fin);
         $dureeJours = $dateDebut->diffInDays($dateFin) + 1;
@@ -65,21 +69,21 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'idmateriel' => 'required|exists:materiels,id',
-            'nom_client' => 'required|string|max:255',
-            'email_client' => 'required|email|max:255',
-            'telephone_client' => 'required|string|max:20',
-            'adresse_client' => 'required|string|max:500',
+            'idmateriel' => 'required|exists:materiel,idmateriel',
+            'nom_complet' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'telephone' => 'required|string|max:20',
+            'adresse' => 'required|string|max:500',
             'date_debut' => 'required|date|after_or_equal:today',
             'date_fin' => 'required|date|after:date_debut',
             'commentaires' => 'nullable|string|max:1000',
             'conditions_acceptees' => 'required|array|min:1'
         ]);
 
-        $materiel = Materiel::findOrFail($request->materiel_id);
+        $materiel = Materiel::findOrFail($request->idmateriel);
         
         // Vérifier la disponibilité
-        $conflits = Reservation::where('materiel_id', $request->materiel_id)
+        $conflits = Reservation::where('idmateriel', $request->idmateriel)
             ->where('statut', '!=', 'annulee')
             ->where(function($query) use ($request) {
                 $query->whereBetween('date_debut', [$request->date_debut, $request->date_fin])
@@ -107,12 +111,12 @@ class ReservationController extends Controller
             $totalTTC = $sousTotal + $tva + $caution;
 
             $reservation = Reservation::create([
-                'idmateriel' => $request->materiel_id,
+                'idmateriel' => $request->idmateriel,
                 'iduser' => Auth::id(),
-                'nom_client' => $request->nom_client,
-                'email_client' => $request->email_client,
-                'telephone_client' => $request->telephone_client,
-                'adresse_client' => $request->adresse_client,
+                'nom_complet' => $request->nom_complet,
+                'email' => $request->email,
+                'telephone' => $request->telephone,
+                'adresse' => $request->adresse,
                 'date_debut' => $request->date_debut,
                 'date_fin' => $request->date_fin,
                 'duree_jours' => $dureeJours,
@@ -129,18 +133,22 @@ class ReservationController extends Controller
 
             DB::commit();
 
-            return redirect()->route('reservations.show', $reservation)
+            return redirect()->route('reservations.index')
                 ->with('success', 'Réservation créée avec succès!');
 
-        } catch (\Exception $e) {
+       } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Erreur lors de la création de la réservation.']);
+             return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 
     public function show(Reservation $reservation)
     {
-        $this->authorize('view', $reservation);
+        // Supprimer l'autorisation pour permettre à tous les utilisateurs connectés
+        // $this->authorize('view', $reservation);
+        
+        // Ou garder l'autorisation si vous voulez que seuls les propriétaires voient leurs réservations
+        // $this->authorize('view', $reservation);
         
         $reservation->load('materiel');
         
@@ -149,19 +157,53 @@ class ReservationController extends Controller
 
     public function confirmer(Reservation $reservation)
     {
-        $this->authorize('update', $reservation);
+        // Supprimer l'autorisation pour permettre à tous les utilisateurs connectés
+        // $this->authorize('update', $reservation);
+        
+        // Ou garder l'autorisation si vous voulez que seuls les propriétaires confirment leurs réservations
+        // $this->authorize('confirmer', $reservation);
         
         $reservation->update(['statut' => 'confirmee']);
-        
-        return back()->with('success', 'Réservation confirmée!');
+        return redirect()->route('reservations.index')
+            ->with('success', 'Réservation confirmée avec succès !');
     }
 
     public function annuler(Reservation $reservation)
     {
-        $this->authorize('update', $reservation);
+        // Supprimer l'autorisation pour permettre à tous les utilisateurs connectés
+        // $this->authorize('update', $reservation);
+        
+        // Ou garder l'autorisation si vous voulez que seuls les propriétaires annulent leurs réservations
+        // $this->authorize('annuler', $reservation);
         
         $reservation->update(['statut' => 'annulee']);
         
         return back()->with('success', 'Réservation annulée!');
+    }
+
+    public function listeReservations()
+    {
+        $request = request();
+        
+        $query = Reservation::with('materiel')
+            ->where('iduser', Auth::id())
+            ->orderBy('created_at', 'desc');
+
+        // Filtres
+        if ($request->filled('statut')) {
+            $query->where('statut', $request->statut);
+        }
+
+        if ($request->filled('statut_paiement')) {
+            $query->where('statut_paiement', $request->statut_paiement);
+        }
+
+        if ($request->filled('date_debut')) {
+            $query->where('date_debut', '>=', $request->date_debut);
+        }
+
+        $reservations = $query->paginate(10);
+
+        return view('reservations.index', compact('reservations'));
     }
 }

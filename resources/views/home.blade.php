@@ -163,67 +163,76 @@
             </div>
             
             <div class="row g-4">
-                @foreach($materiels->take(6) as $index => $materiel)
-                <div class="col-lg-4 col-md-6">
-                    <div class="equipment-card modern-card" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
-                        <div class="card-image-container">
-                            @php
-                                $imageUrls = [
-                                     asset('image/Vantage_pulverisateur_traine-1.jpg') ,
-                                     asset('image/EL20511201_1-1000x562.jpg'),
-                                     asset('image/4404.jpg'),
-                                     asset('image/images.jpeg'),
-                                    
-                                ];
-                                $randomImage = $imageUrls[array_rand($imageUrls)];
-                            @endphp
-                            <img src="{{ $randomImage }}" alt="{{ $materiel->nom }}" class="card-img">
-                            <div class="card-overlay">
-                                <div class="overlay-content">
-                                    <button class="btn btn-light rounded-circle">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="btn btn-light rounded-circle">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="status-badge">
-                                <span class="badge bg-success">Disponible</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-content">
-                            <h5 class="card-title fw-bold mb-2">{{ $materiel->nom }}</h5>
-                            <p class="card-description text-muted mb-3">{{ Str::limit($materiel->description, 80) }}</p>
-                            
-                            <div class="card-features mb-3">
-                                <div class="feature-item">
-                                    <i class="fas fa-calendar-alt text-primary me-2"></i>
-                                    <span>2023</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-cogs text-success me-2"></i>
-                                    <span>Automatique</span>
-                                </div>
-                            </div>
-                            
-                            <div class="card-footer d-flex justify-content-between align-items-center">
-                                <div class="price">
-                                    <span class="price-amount fw-bold text-primary">
-                                        {{ number_format(rand(50000, 200000), 0, ',', ' ') }} FCFA
-                                    </span>
-                                    <small class="text-muted">/jour</small>
-                                </div>
-                                <button class="btn btn-primary btn-sm rounded-pill">
-                                    <i class="fas fa-shopping-cart me-1"></i>
-                                    Louer
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+       {{-- SOLUTION 3: Images depuis la base de données --}}
+{{-- SOLUTION 3: Images depuis la base de données --}}
+@foreach($materiels->take(6) as $index => $materiel)
+<div class="col-lg-4 col-md-6">
+    <div class="equipment-card modern-card" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+        <div class="card-image-container">
+            @php
+                // Images associées par ID
+                $imageUrls = [
+                    asset('image/images (4).jpeg'),
+                    asset('image/EL20511201_1-1000x562.jpg'),
+                    asset('image/4404.jpg'),
+                    asset('image/téléchargement (1).jpeg'),
+                    asset('image/téléchargement.jpeg'),
+                    asset('image/images (2).jpeg'),
+                ];
+                
+                // Utiliser l'index de la boucle pour une association cohérente
+                // $imageUrl = $imageUrls[$index] ?? $imageUrls[0]; // Fallback sur la première image
+                
+                // OU utiliser l'ID du matériel avec modulo pour éviter les index invalides
+                // $imageUrl = $imageUrls[($materiel->id - 1) % count($imageUrls)];
+            @endphp
+            <img src="{{ $imageUrls[$index] ?? $imageUrls[0] }}" alt="{{ $materiel->nom }}" class="card-img-top">
+            <div class="card-overlay">
+                <div class="overlay-content">
+                    <button class="btn btn-light rounded-circle">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-light rounded-circle">
+                        <i class="fas fa-heart"></i>
+                    </button>
                 </div>
-                @endforeach
+            </div>
+            <div class="status-badge">
+                <span class="badge bg-success">Disponible</span>
+            </div>
+        </div>
+        
+        <div class="card-body">
+            <h5 class="card-title fw-bold mb-2">{{ $materiel->nom }}</h5>
+            <p class="card-text text-muted mb-3">{{ Str::limit($materiel->description, 80) }}</p>
+            
+            <div class="card-features mb-3">
+                <div class="feature-item">
+                    <i class="fas fa-calendar-alt text-primary me-2"></i>
+                    <span>2025</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-cogs text-success me-2"></i>
+                    <span>Automatique</span>
+                </div>
+            </div>
+            
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <div class="price">
+                    <span class="price-amount fw-bold text-primary">
+                        {{ number_format(rand(50000, 200000), 0, ',', ' ') }} FCFA
+                    </span>
+                    <small class="text-muted">/jour</small>
+                </div>
+                <button class="btn btn-primary btn-sm rounded-pill">
+                    <i class="fas fa-shopping-cart me-1"></i>
+                    Louer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
             </div>
             
             <div class="text-center mt-5">
