@@ -91,6 +91,7 @@
             </div>
 
             <!-- Liste des réservations -->
+           <!-- Liste des réservations -->
             @if($reservations->count() > 0)
                 <div class="row">
                     @foreach($reservations as $reservation)
@@ -241,36 +242,51 @@
                                 </div>
 
                                 <!-- Actions -->
-                                <div class="card-footer">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                           <a href="{{ route('reservations.show', $reservation) }}" class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-eye"></i> Voir détails
-                                            </a>
-                                        </div>
-                                        <div class="btn-group">
-                                            @if($reservation->statut == 'en_attente')
-                                                <form method="POST" action="{{ route('reservations.confirmer', $reservation) }}" class="d-inline">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Confirmer cette réservation ?')">
-                                                        <i class="fas fa-check"></i> Confirmer
-                                                    </button>
-                                                </form>
-                                            @endif
-                                            
-                                            @if(in_array($reservation->statut, ['en_attente', 'confirmee']))
-                                                <form method="POST" action="{{ route('reservations.annuler', $reservation) }}" class="d-inline">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Annuler cette réservation ?')">
-                                                        <i class="fas fa-times"></i> Annuler
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+                               <!-- Actions -->
+<div class="card-footer">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <a href="{{ route('reservations.show', $reservation) }}" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-eye"></i> Voir détails
+            </a>
+        </div>
+        <div class="btn-group">
+            {{-- Bouton Payer pour les réservations non payées --}}
+            @if($reservation->statut_paiement == 'non_paye' && in_array($reservation->statut, ['confirmee', 'en_cours']))
+                <a href="{{ route('paiements.create', $reservation) }}" class="btn btn-warning btn-sm">
+                    <i class="fas fa-credit-card"></i> Payer
+                </a>
+            @endif
+
+            {{-- Bouton Compléter paiement pour les acomptes --}}
+            @if($reservation->statut_paiement == 'acompte' && in_array($reservation->statut, ['confirmee', 'en_cours']))
+                <a href="{{ route('paiements.create', $reservation) }}" class="btn btn-info btn-sm">
+                    <i class="fas fa-credit-card"></i> Compléter paiement
+                </a>
+            @endif
+
+            @if($reservation->statut == 'en_attente')
+                <form method="POST" action="{{ route('reservations.confirmer', $reservation) }}" class="d-inline">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Confirmer cette réservation ?')">
+                        <i class="fas fa-check"></i> Confirmer
+                    </button>
+                </form>
+            @endif
+            
+            @if(in_array($reservation->statut, ['en_attente', 'confirmee']))
+                <form method="POST" action="{{ route('reservations.annuler', $reservation) }}" class="d-inline">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Annuler cette réservation ?')">
+                        <i class="fas fa-times"></i> Annuler
+                    </button>
+                </form>
+            @endif
+        </div>
+    </div>
+</div>
                             </div>
                         </div>
                     @endforeach

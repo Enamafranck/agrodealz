@@ -11,6 +11,7 @@ use App\Http\Controllers\PayementController;
 use App\Http\Controllers\AproposController;
 use App\Http\Controllers\CatalogueController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\ReservationController;
 use App\Livewire\Utilisateurs; // ✅ Namespace correct
 
@@ -45,8 +46,6 @@ Route::post('/materiel/{id}/louer', [LocationController::class, 'louer'])->name(
 // routes/web.php
 Route::get('/location', [LocationController::class, 'create'])->name('location.create');
 Route::post('/location', [LocationController::class, 'store'])->name('location.submit');
-Route::get('/paiement/{location_id}', [PayementController::class, 'showForm'])->name('paiement.form');
-Route::post('/paiement', [PayementController::class, 'store'])->name('paiement.store');
 Route::get('/apropos', [AproposController::class, 'index'])->name('apropos');
 Route::get('/catalogue', [CatalogueController::class, 'index'])->name('catalogue');
 // Ajoutez ces routes
@@ -70,7 +69,35 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/publier-annonce', [App\Http\Controllers\AnnoncesController::class, 'create'])->name('publier.annonce');
     Route::post('/publier-annonce', [App\Http\Controllers\AnnoncesController::class, 'store'])->name('publier.annonce.store');
 });
+Route::middleware('auth')->group(function () {
+    // Routes pour les paiements
+    Route::get('/reservations/{reservation}/paiement', [PaiementController::class, 'show'])
+        ->name('paiements.show');
+           Route::get('/reservations/{reservation}/paiements/create', [PaiementController::class, 'create'])
+        ->name('paiements.create');
+    
+    Route::post('/reservations/{reservation}/paiement', [PaiementController::class, 'initier'])
+        ->name('paiements.initier');
+    
+    Route::patch('/paiements/{paiement}/confirmer', [PaiementController::class, 'confirmer'])
+        ->name('paiements.confirmer');
+    
+    Route::patch('/paiements/{paiement}/annuler', [PaiementController::class, 'annuler'])
+        ->name('paiements.annuler');
+         // Traiter le formulaire de paiement
+    Route::post('/reservations/{reservation}/paiements', [PaiementController::class, 'store'])->name('paiements.store');
+    // Ajoutez cette route dans votre web.php
 
+Route::get('/paiements/{paiement}/statut', [PaiementController::class, 'statut'])
+    ->name('paiements.statut');
+
+});
+
+// Route publique pour les callbacks
+Route::post('/paiements/callback', [PaiementController::class, 'callback'])
+    ->name('paiements.callback');
+    Route::get('reservations/{reservation}/payer', [ReservationController::class, 'payer'])->name('reservations.payer');
+Route::post('reservations/{reservation}/payer', [ReservationController::class, 'traiterPaiement'])->name('reservations.traiter-paiement');
 
 
 
